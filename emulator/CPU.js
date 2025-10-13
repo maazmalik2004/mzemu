@@ -295,6 +295,10 @@ class CPU {
                     this.SUB();
                     break;
 
+                case "CMP":
+                    this.CMP();
+                    break;
+
                 case "AND":
                     this.AND();
                     break;
