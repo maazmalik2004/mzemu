@@ -35,17 +35,17 @@ HALT
 # ./modules/multiplication.mz
 ```./modules/multiplication.mz
 multiplication:
-MOVR0DR 1001       // 9 times (counter)
-STM 0000           // memory[0] = 9
-MOVR0DR 1111       // value to multiply = 15
-STM 0001           // memory[1] = 15
-loop:
+MOVR0DR 1001     //9  
+STM 0000         
+MOVR0DR 1111     //15
+STM 0001      
+loop:            //loop label
 CALL add
 CALL decrement_counter
-JNZ loop             // jump to loop start (instruction 4)
+JNZ loop        //jump to "loop"
 RETURN
 
-add:
+add:            //add routine
 LDM 0001
 MOVIRR0
 MOVR0R1
@@ -54,13 +54,13 @@ MOVR0RR
 MOVR1R0
 RETURN
 
-decrement_counter:
+decrement_counter:  //decrement counter routine
 MOVR0DR 0001        // prepare to decrement
 MOVIRR0
 LDM 0000            // load counter
-SUB                  // counter - 1
+SUB                 // counter - 1
 MOVR0RR
-STM 0000             // store back counter
+STM 0000            // store back counter
 RETURN
 ```
 
