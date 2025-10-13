@@ -5,6 +5,9 @@
 # installation
 ```Terminal
 > npm install -g mzemu
+```
+# from project folder
+```
 > mzemu
 ```
 
