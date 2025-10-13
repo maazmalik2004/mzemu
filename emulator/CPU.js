@@ -377,7 +377,7 @@ class CPU {
 
                 default:
                     if (operation.includes(':')) break;
-                    // console.warn("INSTRUCTION NOT FOUND : ", line)
+                    console.warn("INSTRUCTION NOT FOUND : ", line)
             }
 
             this.registers.IP++;
