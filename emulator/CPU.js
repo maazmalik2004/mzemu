@@ -110,6 +110,13 @@ class CPU {
         this.flags.N = result < 0 ? 1 : 0;
     }
 
+    CMP(){
+        const result = this.registers.R0 - this.registers.IR;
+
+        this.flags.Z = result === 0 ? 1 : 0;
+        this.flags.N = result < 0 ? 1 : 0;
+    }
+
     AND() {
         this.registers.RR = this.registers.R0 & this.registers.IR;
         this.flags.Z = this.registers.RR === 0 ? 1 : 0;
