@@ -1,0 +1,16 @@
+{
+  "name": "emulator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "CPU.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "mzemu": "./index.js"
+  },
+  "type": "module"
+}
