@@ -1,13 +1,13 @@
 {
   "name": "mzemu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An emulator for MZ2284MAXRISC CPU architecture and instruction set",
-  "main": "CPU.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Maaz Malik",
   "license": "ISC",
   "bin": {
     "mzemu": "./index.js"
