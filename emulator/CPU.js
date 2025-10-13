@@ -390,9 +390,6 @@ class CPU {
     // }
     
     print() {
-        console.log("===== CPU STATE =====\n");
-
-        // --- Registers Table ---
         const registersTable = Object.entries(this.registers).map(([reg, value]) => ({
             Register: reg,
             Decimal: value,
@@ -402,7 +399,6 @@ class CPU {
         console.log("REGISTERS:");
         console.table(registersTable);
 
-        // --- Flags Table ---
         const flagsTable = Object.entries(this.flags).map(([flag, value]) => ({
             Flag: flag,
             Value: value
@@ -410,7 +406,6 @@ class CPU {
         console.log("FLAGS:");
         console.table(flagsTable);
 
-        // --- Memory Table ---
         const memoryTable = [];
         for (let addr = 0; addr < (1 << this.nAddressBits); addr++) {
             const value = this.memory.read(addr);
