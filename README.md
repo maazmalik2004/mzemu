@@ -22,6 +22,7 @@ mzemu > init
 │   └── build.mz
 ├── modules/
 │   └── multiplication.mz
+|   └── other modules...
 ├── config.json
 └── main.mz
 ```
