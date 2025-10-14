@@ -21,7 +21,7 @@ mzemu > init
 ├── build/
 │   └── build.mz
 ├── modules/
-│   └── multiplication.mz
+│   └── arithmetic.mz
 |   └── other modules...
 ├── config.json
 └── main.mz
@@ -29,38 +29,91 @@ mzemu > init
 
 # main.mz is the entry point. main.mz may refer to functions defined in module files
 ```main.mz
-CALL multiplication
+MOVR0DR 100110
+STM 0
+MOVR0DR 10
+STM 1
+CALL arithmetic_multiply
 HALT
 ```
-# ./modules/multiplication.mz
-```./modules/multiplication.mz
-multiplication:
-MOVR0DR 1001     //9  
-STM 0000         
-MOVR0DR 1111     //15
-STM 0001      
-loop:            //loop label
-CALL add
-CALL decrement_counter
-JNZ loop        //jump to "loop"
+# ./modules/arithmetic.mz
+```./modules/arithmetic.mz
+arithmetic_add:
+    LDM 1
+    MOVIRR0
+    LDM 0
+    SUM
+    MOVR0RR
+    STM 10
+    RETURN
+
+arithmetic_subtract:
+    LDM 1
+    MOVIRR0
+    LDM 0
+    SUB
+    MOVR0RR
+    STM 10
+    RETURN
+
+arithmetic_multiply:
+    arithmetic_multiply_loop:
+        CALL arithmetic_multiply_add
+        CALL arithmetic_multiply_decrement_counter
+        JNZ arithmetic_multiply_loop
+    
+    MOVR0R1
+    STM 10
+    HALT
+
+    arithmetic_multiply_add:
+        LDM 0001
+        MOVIRR0
+        MOVR0R1
+        SUM
+        MOVR0RR
+        MOVR1R0
+        RETURN
+
+    arithmetic_multiply_decrement_counter:
+        MOVR0DR 0001        // prepare to decrement
+        MOVIRR0
+        LDM 0000            // load counter
+        SUB                  // counter - 1
+        MOVR0RR
+        STM 0000             // store back counter
+        RETURN
 RETURN
 
-add:            //add routine
-LDM 0001
-MOVIRR0
-MOVR0R1
-SUM
-MOVR0RR
-MOVR1R0
-RETURN
+arithmetic_divide:
+    arithmetic_divide_loop:
+        //while(n1 <= n0)
+        LDM 1
+        MOVIRR0
+        LDM 0
+        CMP
+        //JZ arithmetic_divide_after_loop
+        JN arithmetic_divide_after_loop
 
-decrement_counter:  //decrement counter routine
-MOVR0DR 0001        // prepare to decrement
-MOVIRR0
-LDM 0000            // load counter
-SUB                 // counter - 1
-MOVR0RR
-STM 0000            // store back counter
+        //n0 = n0 - n1
+        LDM 1
+        MOVIRR0
+        LDM 0
+        SUB
+        MOVR0RR
+        STM 0
+
+        //ctr++
+        MOVR0R1
+        INCR0
+        MOVR1R0
+
+    JMP arithmetic_divide_loop
+
+    arithmetic_divide_after_loop:
+        MOVR0R1
+        STM 10
+
 RETURN
 ```
 
@@ -78,20 +131,19 @@ mzemu > execute
 ```Terminal
 mzemu > print
 ```
-<!-- <img width="718" height="839" alt="image" src="https://github.com/user-attachments/assets/52c962b1-ab9b-4140-8a79-67f244073bc1" /> -->
 ```
 [MZ2284MAXRISC CPU STATE]
 REGISTERS:
 ┌─────────┬──────────┬─────────┬────────────┬──────┐
 │ (index) │ Register │ Decimal │ Binary     │ Hex  │
 ├─────────┼──────────┼─────────┼────────────┼──────┤
-│ 0       │ 'R0'     │ 0       │ '00000000' │ '00' │
-│ 1       │ 'R1'     │ 135     │ '10000111' │ '87' │
+│ 0       │ 'R0'     │ 76      │ '01001100' │ '4C' │
+│ 1       │ 'R1'     │ 76      │ '01001100' │ '4C' │
 │ 2       │ 'IR'     │ 1       │ '00000001' │ '01' │
 │ 3       │ 'RR'     │ 0       │ '00000000' │ '00' │
 │ 4       │ 'PR'     │ 0       │ '00000000' │ '00' │
 │ 5       │ 'SP'     │ 0       │ '00000000' │ '00' │
-│ 6       │ 'IP'     │ 1       │ '00000001' │ '01' │
+│ 6       │ 'IP'     │ 29      │ '00011101' │ '1D' │
 └─────────┴──────────┴─────────┴────────────┴──────┘
 FLAGS:
 ┌─────────┬──────┬───────┐
@@ -106,8 +158,8 @@ MEMORY:
 │ (index) │ AddrDec │ AddrBin    │ AddrHex │ ValueDec │ ValueBin   │ ValueHex │
 ├─────────┼─────────┼────────────┼─────────┼──────────┼────────────┼──────────┤
 │ 0       │ 0       │ '00000000' │ '00'    │ 0        │ '00000000' │ '00'     │
-│ 1       │ 1       │ '00000001' │ '01'    │ 15       │ '00001111' │ '0F'     │
-│ 2       │ 2       │ '00000010' │ '02'    │ 0        │ '00000000' │ '00'     │
+│ 1       │ 1       │ '00000001' │ '01'    │ 2        │ '00000010' │ '02'     │
+│ 2       │ 2       │ '00000010' │ '02'    │ 76       │ '01001100' │ '4C'     │
 │ 3       │ 3       │ '00000011' │ '03'    │ 0        │ '00000000' │ '00'     │
 │ 4       │ 4       │ '00000100' │ '04'    │ 0        │ '00000000' │ '00'     │
 │ 5       │ 5       │ '00000101' │ '05'    │ 0        │ '00000000' │ '00'     │
@@ -419,7 +471,8 @@ MEMORY:
 | Instruction | Operands | Description                                    |                        
 | ----------- | -------- | ---------------------------------------------- | 
 | SUM         | -        | Add R0 + IR → RR, update Z and C flags         |                        
-| SUB         | -        | Subtract IR from R0 → RR, update Z and N flags |                        
+| SUB         | -        | Subtract IR from R0 → RR, update Z and N flags |      
+| CMP         | -        | Compare R0 and IR, update Z and N flags        |      
 | AND         | -        | Bitwise AND R0 & IR → RR, update Z flag        |                        
 | OR          | -        | Bitwise OR R0 OR IR -> RR                      | 
 | NOT         | -        | Bitwise NOT of R0 → RR, update Z flag          |                        
