@@ -6,16 +6,17 @@
 ```Terminal
 > npm install -g mzemu
 ```
+---
 # from project folder
 ```
 > mzemu
 ```
-
+---
 # setup
 ```Terminal
 mzemu > init
 ```
-
+---
 # Project Structure
 ```
 ├── build/
@@ -26,7 +27,7 @@ mzemu > init
 ├── config.json
 └── main.mz
 ```
-
+---
 # main.mz is the entry point. main.mz may refer to functions defined in module files
 ```main.mz
 MOVR0DR 100110
@@ -36,6 +37,7 @@ STM 1
 CALL arithmetic_multiply
 HALT
 ```
+---
 # ./modules/arithmetic.mz
 ```./modules/arithmetic.mz
 arithmetic_add:
@@ -116,21 +118,22 @@ arithmetic_divide:
 
 RETURN
 ```
-
+---
 # build
 ```Terminal
 mzemu > build
 ```
-
+---
 # execute
 ```Terminal
 mzemu > execute
 ```
-
+---
 # CPU state after execution
 ```Terminal
 mzemu > print
 ```
+---
 ```
 [MZ2284MAXRISC CPU STATE]
 REGISTERS:
@@ -415,26 +418,19 @@ MEMORY:
 │ 255     │ 255     │ '11111111' │ 'FF'    │ 0        │ '00000000' │ '00'     │
 └─────────┴─────────┴────────────┴─────────┴──────────┴────────────┴──────────┘
 ```
-
-## CPU Architecture
-
-![CPU Registers](https://github.com/user-attachments/assets/c7662ecc-e875-49ee-b6be-bc6c06cf3ed3)
-
 ---
-
+## CPU Architecture
+![CPU Registers](https://github.com/user-attachments/assets/c7662ecc-e875-49ee-b6be-bc6c06cf3ed3)
+---
 ## Instruction Set Architecture (ISA)
-
 ### 1. Memory Access Instructions
 
 | Instruction | Operands | Description                                 |
 | ----------- | -------- | ------------------------------------------- |
 | LDM         | address  | Load value from memory at `address` into R0 |
 | STM         | address  | Store value of R0 into memory at `address`  |
-
 ---
-
 ### 2. Data Transfer Instructions
-
 | Instruction | Operands | Description                   |
 | ----------- | -------- | ----------------------------- |
 | MOVR0DR     | data     | Move immediate `data` into R0 |
@@ -444,30 +440,21 @@ MEMORY:
 | MOVR0RR     | -        | Move value from RR into R0    |
 | MOVPRR0     | -        | Move value from R0 into PR    |
 | MOVR0PR     | -        | Move value from PR into R0    |
-
 ---
-
 ### 3. Flag Transfer Instructions
-
 | Instruction | Operands | Description                  |
 | ----------- | -------- | ---------------------------- |
 | MOVR0Z      | -        | Move value of flag Z into R0 |
 | MOVR0C      | -        | Move value of flag C into R0 |
 | MOVR0N      | -        | Move value of flag N into R0 |
-
 ---
-
 ### 4. Pointer Dereferencing Instructions
-
 | Instruction | Operands | Description                                     |
 | ----------- | -------- | ----------------------------------------------- |
 | LDDEREF     | -        | Load value from memory at address in PR into R0 |
 | STDEREF     | -        | Store value of R0 into memory at address in PR  |
-
 ---
-
 ### 5. Arithmetic and Logical Instructions
-
 | Instruction | Operands | Description                                    |                        
 | ----------- | -------- | ---------------------------------------------- | 
 | SUM         | -        | Add R0 + IR → RR, update Z and C flags         |                        
@@ -477,22 +464,16 @@ MEMORY:
 | OR          | -        | Bitwise OR R0 OR IR -> RR                      | 
 | NOT         | -        | Bitwise NOT of R0 → RR, update Z flag          |                        
 | XOR         | -        | Bitwise XOR R0 ^ IR → RR, update Z flag        |                        
-
 ---
-
 ### 6. Increment and Decrement Instructions
-
 | Instruction | Operands | Description  |
 | ----------- | -------- | ------------ |
 | INCR0       | -        | Increment R0 |
 | INCPR       | -        | Increment PR |
 | DECR0       | -        | Decrement R0 |
 | DECPR       | -        | Decrement PR |
-
 ---
-
 ### 7. Control and Branching Instructions
-
 | Instruction | Operands | Description                            |
 | ----------- | -------- | -------------------------------------- |
 | JMP         | label    | Jump to instruction at `label`         |
