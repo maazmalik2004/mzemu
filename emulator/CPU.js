@@ -37,6 +37,19 @@ class CPU {
 
     STM(address) {
         this.memory.write(this.registers.R0, address);
+        this.ALLOC(address)
+    }
+
+    LDV(address) {
+        this.registers.R0 = this.memory.readValidity(address);
+    }
+
+    FREE(address){
+        this.memory.writeValidity(0, address);
+    }
+
+    ALLOC(address){
+        this.memory.writeValidity(1, address);
     }
 
     //data transfer instructions
@@ -192,6 +205,8 @@ class CPU {
         this.registers.IP = this.stack.pop();
     }
 
+    //MISC
+
     HALT() {
         //DO NOTHING
     }
@@ -229,12 +244,24 @@ class CPU {
             const operand = parts[1] || null;
 
             switch (operation.toUpperCase()) {
-                //memory access instructions
+                //memory instructions
                 case "LDM":
                     if (operand) this.LDM(((1 << this.nAddressBits) - 1) & parseInt(operand, 2));
                     break;
+
                 case "STM":
                     if (operand) this.STM(((1 << this.nAddressBits) - 1) & parseInt(operand, 2));
+                    break;
+
+                case "LDV":
+                    if (operand) this.LDV(((1 << this.nAddressBits) - 1) & parseInt(operand, 2));
+                    break;
+                case "FREE":
+                    if (operand) this.FREE(((1 << this.nAddressBits) - 1) & parseInt(operand, 2));
+                    break;
+
+                case "ALLOC":
+                    if (operand) this.ALLOC(((1 << this.nAddressBits) - 1) & parseInt(operand, 2));
                     break;
 
                     //data transfer instructions
@@ -421,6 +448,7 @@ class CPU {
         for (let addr = 0; addr < (1 << this.nAddressBits); addr++) {
             const value = this.memory.read(addr);
             memoryTable.push({
+                Validity: this.memory.readValidity(addr),
                 AddrDec: addr,
                 AddrBin: addr.toString(2).padStart(this.nAddressBits, '0'),
                 AddrHex: addr.toString(16).toUpperCase().padStart(2, '0'),

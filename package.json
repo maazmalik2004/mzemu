@@ -1,6 +1,6 @@
 {
   "name": "mzemu",
-  "version": "1.0.7",
+  "version": "1.0.10",
   "description": "An emulator for MZ2284MAXRISC CPU architecture and instruction set",
   "main": "index.js",
   "scripts": {

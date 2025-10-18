@@ -3,6 +3,7 @@ class Memory {
     constructor(wordSize, totalSize) {
         this.wordSize = wordSize;
         this.memory = new Array(totalSize).fill(0);
+        this.validity = new Array(totalSize).fill(0);
     }
 
     write(data, address) {
@@ -12,6 +13,14 @@ class Memory {
 
     read(address) {
         return this.memory[address];
+    }
+
+    readValidity(address){
+        return this.validity[address];
+    }
+
+    writeValidity(value, address){
+        value === 0 ? this.validity[address] = 0 : this.validity[address] = 1;
     }
 }
 
