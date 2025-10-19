@@ -424,6 +424,7 @@ MEMORY:
 ---
 ## CPU Architecture
 <img width="712" height="1080" alt="MZ2284MAXRISC CPU architecture" src="https://github.com/user-attachments/assets/7227156a-ff37-47fa-8649-fac3c4a0e678" />
+
 ---
 ## Instruction Set Architecture (ISA)
 ### 1. Memory Access Instructions
