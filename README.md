@@ -32,15 +32,15 @@ mzemu > init
 ```main.mz
 MOVR0DR 100110
 STM 0
-MOVR0DR 10
+MOVR0DR 101
 STM 1
-CALL arithmetic_multiply
+CALL arithmetic/multiply
 HALT
 ```
 ---
 # ./modules/arithmetic.mz
 ```./modules/arithmetic.mz
-arithmetic_add:
+add:
     LDM 1
     MOVIRR0
     LDM 0
@@ -49,7 +49,7 @@ arithmetic_add:
     STM 10
     RETURN
 
-arithmetic_subtract:
+subtract:
     LDM 1
     MOVIRR0
     LDM 0
@@ -58,17 +58,17 @@ arithmetic_subtract:
     STM 10
     RETURN
 
-arithmetic_multiply:
-    arithmetic_multiply_loop:
-        CALL arithmetic_multiply_add
-        CALL arithmetic_multiply_decrement_counter
-        JNZ arithmetic_multiply_loop
+multiply:
+    multiply_loop:
+        CALL multiply_add
+        CALL multiply_decrement_counter
+        JNZ multiply_loop
     
     MOVR0R1
     STM 10
     HALT
 
-    arithmetic_multiply_add:
+    multiply_add:
         LDM 0001
         MOVIRR0
         MOVR0R1
@@ -77,7 +77,7 @@ arithmetic_multiply:
         MOVR1R0
         RETURN
 
-    arithmetic_multiply_decrement_counter:
+    multiply_decrement_counter:
         MOVR0DR 0001        // prepare to decrement
         MOVIRR0
         LDM 0000            // load counter
@@ -87,15 +87,14 @@ arithmetic_multiply:
         RETURN
 RETURN
 
-arithmetic_divide:
-    arithmetic_divide_loop:
+divide:
+    divide_loop:
         //while(n1 <= n0)
         LDM 1
         MOVIRR0
         LDM 0
         CMP
-        //JZ arithmetic_divide_after_loop
-        JN arithmetic_divide_after_loop
+        JN divide_after_loop
 
         //n0 = n0 - n1
         LDM 1
@@ -110,13 +109,14 @@ arithmetic_divide:
         INCR0
         MOVR1R0
 
-    JMP arithmetic_divide_loop
+    JMP divide_loop
 
-    arithmetic_divide_after_loop:
+    divide_after_loop:
         MOVR0R1
         STM 10
 
 RETURN
+
 ```
 ---
 # build
