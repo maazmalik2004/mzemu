@@ -2,7 +2,7 @@
   "name": "mzemu",
   "version": "1.0.10",
   "description": "An emulator for MZ2284MAXRISC CPU architecture and instruction set",
-  "main": "index.js",
+  "main": "client.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +10,7 @@
   "author": "Maaz Malik",
   "license": "ISC",
   "bin": {
-    "mzemu": "./index.js"
+    "mzemu": "./client.js"
   },
   "type": "module"
 }

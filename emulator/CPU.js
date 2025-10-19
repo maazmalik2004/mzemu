@@ -216,27 +216,25 @@ class CPU {
     }
 
     parse(program) {
-        //1)split the program into lines
-        //2)remove comments
-        //3)remove empty lines or lines with only comments
-        const lines = program.split(/\r?\n/).map(line => line.split("//")[0].trim()).filter(line => line.length > 0);
+        //splitting program into lines
+        const lines = program.split(/\r?\n/);
 
         //parsing labels
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
-            // console.log(`${i}\t${line}`);
+
+            //parse labels
             if (line.includes(':')) {
                 const label = line.substring(0, line.indexOf(':'));
                 this.labels[label] = i;
             }
         }
-        // console.log(this.labels);
+
         return lines;
     }
 
     execute(program) {
         this.program = this.parse(program);
-        // console.log('EXECUTION LOGS...');
         while (this.registers.IP < this.program.length) {
             const line = this.program[this.registers.IP];
             const parts = line.split(/\s+/);
@@ -411,22 +409,6 @@ class CPU {
         }
     }
 
-    // print() {
-    //     console.log("PARSED PROGRAM");
-    //     console.log(this.program);
-
-    //     console.log("REGISTERS");
-    //     console.log(this.registers);
-
-    //     console.log("FLAGS");
-    //     console.log(this.flags);
-
-    //     console.log("MEMORY");
-    //     for (let i = 0; i < (1 << this.nAddressBits); i++) {
-    //         console.log(`${i}\t${this.memory.read(i)}`);
-    //     }
-    // }
-    
     print() {
         const registersTable = Object.entries(this.registers).map(([reg, value]) => ({
             Register: reg,
