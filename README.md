@@ -124,9 +124,12 @@ RETURN
 mzemu > build
 ```
 ---
-# execute
+# execute (-b build flag, build before execution)
 ```Terminal
 mzemu > execute
+```
+```Terminal
+mzemu > execute -b
 ```
 ---
 # CPU state after execution
