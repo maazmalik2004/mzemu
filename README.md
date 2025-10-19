@@ -432,6 +432,9 @@ MEMORY:
 | ----------- | -------- | ------------------------------------------- |
 | LDM         | address  | Load value from memory at `address` into R0 |
 | STM         | address  | Store value of R0 into memory at `address`  |
+| LDV         | address  | Load the validity of memory `address` into R0 |
+| ALLOC       | address  | Mark the memory address as allocated/valid  |
+| FREE        | address  | Mark the memory address as free/invalid     |
 ---
 ### 2. Data Transfer Instructions
 | Instruction | Operands | Description                   |
