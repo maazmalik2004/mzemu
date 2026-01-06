@@ -1,6 +1,7 @@
 # MZEMU
 
 ## An emulator for the MZ2284MAXRISC CPU architecture and instruction set
+![1766309152919](https://github.com/user-attachments/assets/cc0e2a91-1e4a-4a5f-b0f7-91e6360c887a)
 
 # installation
 ```Terminal
